@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://c.runoob.com/front-end/854/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>正则表达式在线测试 | 菜鸟工具</title>
+
+    <meta name="keywords" content="正则表达式在线测试" />
+    <meta
+            name="description"
+            content="一、校验数字的表达式  数字：^[0-9]*$    n位的数字：^\d{n}$  至少n位的数字：^\d{n,}$  m-n位的数字：^\d{m,n}$  零和非零开头的数字：^(0|[1-9][0-9]*)$  非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(\.[0-9]{1,2})?$  带1-2位小数的正数或负数：^(\-)?\d+(\.\d{1,2})$  正数、负数、和小数：^(\-|\+)?\d+(\.\.."
+    />
+
+    <link
+            href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- Custom Fonts -->
+    <style>
+        #textPattern {
+            color: #3030c0;
+            font-weight: bold;
+        }
+        [contentEditable="false"]:empty:not(:focus):before {
+            content: attr(data-text);
+            color: #9a9a9a;
+        }
+        #flags {
+            padding: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        #exp,
+        #txt {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+            background-color: #fff;
+        }
+        .runoob-regex-test {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 0px;
+        }
+        #exp,
+        #exp_dsp,
+        #flags,
+        #match,
+        #txt {
+            font-size: 14px;
+            font-family: Menlo, Consolas, Monaco, "Lucida Console",
+            "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
+            "Courier New", monospace, serif;
+        }
+        #exp {
+            min-height: 34px;
+            padding: 6px 12px;
+            margin: 0;
+            background: #fff;
+        }
+        #exp:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+            0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+            0 0 8px rgba(102, 175, 233, 0.6);
+        }
+        .popover {
+            max-width: 100%;
+            width: auto;
+        }
+        #exp_dsp {
+            display: inline-block;
+            cursor: pointer;
+            white-space: pre-wrap;
+        }
+        #exp_dsp .error {
+            color: #f13f86;
+        }
+        #match {
+            background: #fff;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px #aaa;
+            padding: 10px;
+        }
+        .g {
+            white-space: pre-wrap;
+            background: #eee;
+            border-radius: 4px;
+        }
+        #txt {
+            min-height: 100px;
+            background: #fff;
+        }
+        #txt ol li:first-child {
+            opacity: 0.5;
+        }
+        #txt:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+            0 0 8px rgba(102, 175, 233, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+            0 0 8px rgba(102, 175, 233, 0.6);
+        }
+        #txt i,
+        #txt b {
+            border-radius: 4px;
+            font-style: normal;
+            font-weight: normal;
+        }
+        #txt i {
+            background: #cff5ff;
+            box-shadow: 0 0 0 1px #09f;
+        }
+        #txt b {
+            background: #ffdfff;
+            box-shadow: 0 0 0 1px #df56ad;
+        }
+    </style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+</head>
+
+<body>
+<script>
+    var is_home = false;
+</script>
+
+<div class="runoob-page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div id="compiler" class="card-header">
+                    <form class="form-inline" role="form">
+                        <label
+                        ><strong style="font-size: 16px"
+                        ><i class="fa fa-cogs"></i> 正则表达式在线测试</strong
+                        ></label
+                        >
+                        <button
+                                type="button"
+                                class="btn btn-primary mr-1 ml-1"
+                                data-toggle="modal"
+                                data-target="#myModal"
+                                id="submitBTN"
+                        >
+                            <i class="fa fa-paper-plane"></i> 生成代码
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-warning mr-1"
+                                onclick="return testReg(&#39;[0-9]+&#39;, &#39;123abc456def&#39;);"
+                        >
+                            匹配数字
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-warning mr-1"
+                                onclick="return testReg(&#39;[a-z]+&#39;, &#39;123abc456def&#39;);"
+                        >
+                            匹配字母
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-warning mr-1"
+                                onclick="return testReg(&#39;[\\u4e00-\\u9fa5]&#39;, &#39;ABC#123中文456def&#39;);"
+                        >
+                            匹配中文
+                        </button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" style="display: none"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <form class="form-inline">
+                                <div class="form-group col-md-8" style="padding: 0">
+                                    <div class="form-group" style="width: 100%">
+                                        <div
+                                                class="input-group input-group-lg mb-3"
+                                                style="width: 100%"
+                                        >
+                                            <div class="input-group-prepend">
+                            <span
+                                    class="input-group-text"
+                                    style="font-size: 18px; font-weight: bold"
+                            ><i
+                                    class="fa fa-exclamation-triangle"
+                                    aria-hidden="true"
+                                    style="display: none; color: red"
+                            ></i>
+                              /</span
+                            >
+                                            </div>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="在此输入正则表达式"
+                                                    aria-label="在此输入正则表达式"
+                                                    aria-describedby="basic-addon1"
+                                                    save="text"
+                                                    id="textPattern"
+                                            />
+                                            <div class="input-group-append">
+                            <span
+                                    class="input-group-text"
+                                    style="font-size: 18px; font-weight: bold"
+                            >/
+                              <label class="marked" id="regFlag">g</label></span
+                            >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4" style="top: -8px">
+                                    <div class="btn-group mr-2">
+                                        <button
+                                                class="btn btn-outline-dark dropdown-toggle btn-lg"
+                                                type="button"
+                                                id="menu1"
+                                                data-toggle="dropdown"
+                                        >
+                                            <i class="fa fa-flag" aria-hidden="true"></i> 修饰符
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul
+                                                class="dropdown-menu"
+                                                role="menu"
+                                                aria-labelledby="menu1"
+                                        >
+                                            <li class="dropdown-item">
+                                                <div class="form-check justify-content-start">
+                                                    <input
+                                                            type="checkbox"
+                                                            value="global"
+                                                            checked="checked"
+                                                            id="optionGlobal"
+                                                            class="form-check-input"
+                                                            name="optionGlobl"
+                                                    />
+                                                    <label for="optionGlobal" class="form-check-label"
+                                                    >全局搜索 - <strong>g</strong></label
+                                                    >
+                                                </div>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <div class="form-check justify-content-start">
+                                                    <input
+                                                            type="checkbox"
+                                                            value="ignoreCase"
+                                                            id="optionIgnoreCase"
+                                                            class="form-check-input"
+                                                            name="optionIgnoreCase"
+                                                    />
+                                                    <label
+                                                            for="optionIgnoreCase"
+                                                            class="form-check-label"
+                                                    >忽略大小写 - <strong>i</strong></label
+                                                    >
+                                                </div>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <div class="form-check justify-content-start">
+                                                    <input
+                                                            type="checkbox"
+                                                            value="multiline"
+                                                            id="optionMultiline"
+                                                            class="form-check-input"
+                                                            name="optionMultiline"
+                                                    />
+                                                    <label
+                                                            for="optionMultiline"
+                                                            class="form-check-label"
+                                                    >多行模式 - <strong>m</strong></label
+                                                    >
+                                                </div>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <div class="form-check justify-content-start">
+                                                    <input
+                                                            type="checkbox"
+                                                            value="singleline"
+                                                            id="optionSingleline"
+                                                            class="form-check-input"
+                                                            name="optionSingleline"
+                                                    />
+                                                    <label
+                                                            for="optionSingleline"
+                                                            class="form-check-label"
+                                                    >包含换行符 - <strong>s</strong></label
+                                                    >
+                                                </div>
+                                            </li>
+
+                                            <li class="dropdown-divider"></li>
+                                            <li class="dropdown-item">
+                                                <a
+                                                        role="menuitem"
+                                                        target="_blank"
+                                                        href="https://www.runoob.com/regexp/regexp-flags.html"
+                                                ><i class="fa fa-external-link-alt"></i>
+                                                    修饰符介绍
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button
+                                                class="btn btn-outline-dark dropdown-toggle btn-lg"
+                                                type="button"
+                                                id="menu2"
+                                                data-toggle="dropdown"
+                                        >
+                                            <i class="fa fa-file-alt" aria-hidden="true"></i>
+                                            语法参考 <span class="caret"></span>
+                                        </button>
+                                        <ul
+                                                class="dropdown-menu"
+                                                role="menu"
+                                                aria-labelledby="menu2"
+                                                style="z-index: 1111; padding: 12px; min-width: 350px"
+                                        >
+                                            <li class="dropdown-item">
+                                                <code><strong>.</strong></code> -
+                                                除换行符以外的所有字符。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>^</strong></code> - 字符串开头。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>$</strong></code> - 字符串结尾。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>\d</code>,<code>\w</code>,<code
+                                                >\s</code
+                                                ></strong
+                                                >
+                                                - 匹配数字、字符、空格。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>\D</code>,<code>\W</code>,<code
+                                                >\S</code
+                                                ></strong
+                                                >
+                                                - 匹配非数字、非字符、非空格。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>[abc]</strong></code> - 匹配 a、b 或 c
+                                                中的一个字母。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>[a-z]</strong></code> - 匹配 a 到 z
+                                                中的一个字母。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>[^abc]</strong></code> - 匹配除了 a、b
+                                                或 c 中的其他字母。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>aa|bb</strong></code> - 匹配 aa 或
+                                                bb。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>?</strong></code> - 0 次或 1 次匹配。
+                                            </li>
+
+                                            <li class="dropdown-item">
+                                                <code><strong>*</strong></code> - 匹配 0 次或多次。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>+</strong></code> - 匹配 1 次或多次。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>{<em>n</em>}</strong></code> - 匹配
+                                                <em>n</em>次。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code><strong>{<em>n</em>,}</strong></code> - 匹配
+                                                <em>n</em>次以上。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <code
+                                                ><strong>{<em>m</em>,<em>n</em>}</strong></code
+                                                >
+                                                - 最少 <em>m</em> 次，最多 <em>n</em> 次匹配。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>(</code><em>expr</em><code>)</code></strong
+                                                >
+                                                - 捕获 <em>expr</em> 子模式,以
+                                                <code>\1</code> 使用它。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>(?:</code><em>expr</em
+                                                ><code>)</code></strong
+                                                >
+                                                - 忽略捕获的子模式。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>(?=</code><em>expr</em
+                                                ><code>)</code></strong
+                                                >
+                                                - 正向预查模式 <em>expr</em>。
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <strong
+                                                ><code>(?!</code><em>expr</em
+                                                ><code>)</code></strong
+                                                >
+                                                - 负向预查模式 <em>expr</em>。
+                                            </li>
+                                            <li class="dropdown-divider"></li>
+                                            <li class="dropdown-item">
+                                                <a
+                                                        role="menuitem"
+                                                        target="_blank"
+                                                        tabindex="-1"
+                                                        href="https://www.runoob.com/regexp/regexp-tutorial.html"
+                                                ><i class="fa fa-external-link-alt"></i>
+                                                    正则表达式教程
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div
+                                class="col-md-12"
+                                style="font-size: 14px; padding-top: 12px"
+                        >
+                  <textarea
+                          rows="6"
+                          id="textSour"
+                          save="text"
+                          placeholder="在此输入待匹配文本"
+                          class="form-control"
+                  ></textarea>
+                        </div>
+                        <div
+                                class="col-md-12"
+                                style="font-size: 14px; padding-top: 12px"
+                        >
+                            <div class="runoob-regex-test">
+                                <div
+                                        id="txt"
+                                        contenteditable="false"
+                                        data-text="匹配结果..."
+                                        spellcheck="false"
+                                >
+                                    <b index="0">123</b>abc<i index="1">456</i>def
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                                class="col-md-12"
+                                style="font-size: 14px; padding-top: 12px"
+                        >
+                  <textarea
+                          rows="6"
+                          readonly="readonly"
+                          placeholder="匹配结果..."
+                          id="textMatchResult"
+                          class="form-control"
+                  ></textarea>
+                        </div>
+                        <div
+                                class="col-md-12"
+                                style="font-size: 14px; padding-top: 12px"
+                        >
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">替换文本：</span>
+                                        </div>
+                                        <input
+                                                type="text"
+                                                id="textReplace"
+                                                name="textReplace"
+                                                class="form-control"
+                                                placeholder="在此输入替换文本"
+                                        />
+                                    </div>
+
+                                    <a
+                                            onclick="return onReplace()"
+                                            class="btn btn-warning ml-1"
+                                    ><i class="icon-chevron-down icon-white"></i>替换</a
+                                    >
+                                </div>
+                            </form>
+                        </div>
+                        <div
+                                class="col-md-12"
+                                style="font-size: 14px; padding-top: 12px"
+                        >
+                  <textarea
+                          rows="6"
+                          readonly="readonly"
+                          id="textReplaceResult"
+                          class="form-control"
+                          placeholder="替换结果..."
+                  ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-2">
+            <div id="about" class="card">
+                <div class="card-header"><h3>常用正则表达式</h3></div>
+                <div class="card-body">
+                    <h2>一、校验数字的表达式</h2>
+                    <ul>
+                        <li>数字：<strong>^[0-9]*$</strong></li>
+                        <li>n位的数字：<strong>^\d{n}$</strong></li>
+                        <li>至少n位的数字<strong>：^\d{n,}$</strong></li>
+                        <li>m-n位的数字：<strong>^\d{m,n}$</strong></li>
+                        <li>零和非零开头的数字：<strong>^(0|[1-9][0-9]*)$</strong></li>
+                        <li>
+                            非零开头的最多带两位小数的数字：<strong
+                        >^([1-9][0-9]*)+(\.[0-9]{1,2})?$</strong
+                        >
+                        </li>
+                        <li>
+                            带1-2位小数的正数或负数：<strong
+                        >^(\-)?\d+(\.\d{1,2})$</strong
+                        >
+                        </li>
+                        <li>
+                            正数、负数、和小数：<strong>^(\-|\+)?\d+(\.\d+)?$</strong>
+                        </li>
+                        <li>
+                            有两位小数的正实数：<strong>^[0-9]+(\.[0-9]{2})?$</strong>
+                        </li>
+                        <li>
+                            有1~3位小数的正实数：<strong>^[0-9]+(\.[0-9]{1,3})?$</strong>
+                        </li>
+                        <li>
+                            非零的正整数：<strong
+                        >^[1-9]\d*$ 或 ^([1-9][0-9]*){1,3}$ 或
+                            ^\+?[1-9][0-9]*$</strong
+                        >
+                        </li>
+                        <li>
+                            非零的负整数：<strong>^\-[1-9][]0-9"*$ 或 ^-[1-9]\d*$</strong>
+                        </li>
+                        <li>非负整数：<strong>^\d+$ 或 ^[1-9]\d*|0$</strong></li>
+                        <li>
+                            非正整数：<strong>^-[1-9]\d*|0$ 或 ^((-\d+)|(0+))$</strong>
+                        </li>
+                        <li>
+                            非负浮点数：<strong
+                        >^\d+(\.\d+)?$ 或
+                            ^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</strong
+                        >
+                        </li>
+                        <li>
+                            非正浮点数：<strong
+                        >^((-\d+(\.\d+)?)|(0+(\.0+)?))$ 或
+                            ^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</strong
+                        >
+                        </li>
+                        <li>
+                            正浮点数：<strong
+                        >^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$ 或
+                            ^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</strong
+                        >
+                        </li>
+                        <li>
+                            负浮点数：<strong
+                        >^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$ 或
+                            ^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</strong
+                        >
+                        </li>
+                        <li>
+                            浮点数：<strong
+                        >^(-?\d+)(\.\d+)?$ 或
+                            ^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</strong
+                        >
+                        </li>
+                    </ul>
+
+                    <hr />
+                    <h2>校验字符的表达式</h2>
+                    <ul>
+                        <li>汉字：<strong>^[\u4e00-\u9fa5]{0,}$</strong></li>
+                        <li>
+                            英文和数字：<strong
+                        >^[A-Za-z0-9]+$ 或 ^[A-Za-z0-9]{4,40}$</strong
+                        >
+                        </li>
+                        <li>长度为3-20的所有字符：<strong>^.{3,20}$</strong></li>
+                        <li>
+                            由26个英文字母组成的字符串：<strong>^[A-Za-z]+$</strong>
+                        </li>
+                        <li>
+                            由26个大写英文字母组成的字符串：<strong>^[A-Z]+$</strong>
+                        </li>
+                        <li>
+                            由26个小写英文字母组成的字符串：<strong>^[a-z]+$</strong>
+                        </li>
+                        <li>
+                            由数字和26个英文字母组成的字符串：<strong
+                        >^[A-Za-z0-9]+$</strong
+                        >
+                        </li>
+                        <li>
+                            由数字、26个英文字母或者下划线组成的字符串：<strong
+                        >^\w+$ 或 ^\w{3,20}$</strong
+                        >
+                        </li>
+                        <li>
+                            中文、英文、数字包括下划线：<strong
+                        >^[\u4E00-\u9FA5A-Za-z0-9_]+$</strong
+                        >
+                        </li>
+                        <li>
+                            中文、英文、数字但不包括下划线等符号：<strong
+                        >^[\u4E00-\u9FA5A-Za-z0-9]+$ 或
+                            ^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$</strong
+                        >
+                        </li>
+                        <li>
+                            可以输入含有^%&amp;',;=?$\"等字符：<strong
+                        >[^%&amp;',;=?$\x22]+</strong
+                        >
+                        </li>
+                        <li>禁止输入含有~的字符：<strong>[^~\x22]+</strong></li>
+                    </ul>
+                    <hr />
+                    <h2>三、特殊需求表达式</h2>
+                    <ul>
+                        <li>
+                            Email地址：<strong
+                        >^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</strong
+                        >
+                        </li>
+                        <li>
+                            域名：<strong
+                        >[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?</strong
+                        >
+                        </li>
+                        <li>
+                            InternetURL：<strong
+                        >[a-zA-z]+://[^\s]* 或
+                            ^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</strong
+                        >
+                        </li>
+                        <li>
+                            手机号码：<strong
+                        >^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$</strong
+                        >
+                        </li>
+                        <li>
+                            电话号码("XXX-XXXXXXX"、"XXXX-XXXXXXXX"、"XXX-XXXXXXX"、"XXX-XXXXXXXX"、"XXXXXXX"和"XXXXXXXX)：<strong
+                        >^(\(\d{3,4}-)|\d{3.4}-)?\d{7,8}$
+                        </strong>
+                        </li>
+                        <li>
+                            国内电话号码(0511-4405222、021-87888822)：<strong
+                        >\d{3}-\d{8}|\d{4}-\d{7}</strong
+                        >
+                        </li>
+                        <li>
+                            电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）:
+                            <strong
+                            >((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)</strong
+                            >
+                        </li>
+
+                        <li>
+                            身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X：<strong
+                        >(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)</strong
+                        >
+                        </li>
+                        <li>
+                            帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：<strong
+                        >^[a-zA-Z][a-zA-Z0-9_]{4,15}$</strong
+                        >
+                        </li>
+                        <li>
+                            密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：<strong
+                        >^[a-zA-Z]\w{5,17}$</strong
+                        >
+                        </li>
+                        <li>
+                            强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在
+                            8-10 之间)：<strong
+                        >^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$
+                        </strong>
+                        </li>
+                        <li>
+                            强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)：<strong
+                        >^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$
+                        </strong>
+                        </li>
+                        <li>日期格式：<strong>^\d{4}-\d{1,2}-\d{1,2}</strong></li>
+                        <li>
+                            一年的12个月(01～09和1～12)：<strong
+                        >^(0?[1-9]|1[0-2])$</strong
+                        >
+                        </li>
+                        <li>
+                            一个月的31天(01～09和1～31)：<strong
+                        >^((0?[1-9])|((1|2)[0-9])|30|31)$
+                        </strong>
+                        </li>
+                        <li>
+                            钱的输入格式：
+                            <ol>
+                                <li>
+                                    有四种钱的表示形式我们可以接受:"10000.00" 和 "10,000.00",
+                                    和没有 "分" 的 "10000" 和 "10,000"：<strong
+                                >^[1-9][0-9]*$
+                                </strong>
+                                </li>
+                                <li>
+                                    这表示任意一个不以0开头的数字,但是,这也意味着一个字符"0"不通过,所以我们采用下面的形式：<strong
+                                >^(0|[1-9][0-9]*)$
+                                </strong>
+                                </li>
+                                <li>
+                                    一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：<strong
+                                >^(0|-?[1-9][0-9]*)$
+                                </strong>
+                                </li>
+                                <li>
+                                    这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉,因为钱总不能是负的吧。下面我们要加的是说明可能的小数部分：<strong
+                                >^[0-9]+(.[0-9]+)?$
+                                </strong>
+                                </li>
+                                <li>
+                                    必须说明的是,小数点后面至少应该有1位数,所以"10."是不通过的,但是
+                                    "10" 和 "10.2" 是通过的：<strong
+                                >^[0-9]+(.[0-9]{2})?$
+                                </strong>
+                                </li>
+                                <li>
+                                    这样我们规定小数点后面必须有两位,如果你认为太苛刻了,可以这样：<strong
+                                >^[0-9]+(.[0-9]{1,2})?$
+                                </strong>
+                                </li>
+                                <li>
+                                    这样就允许用户只写一位小数.下面我们该考虑数字中的逗号了,我们可以这样：<strong
+                                >^[0-9]{1,3}(,[0-9]{3})*(.[0-9]{1,2})?$
+                                </strong>
+                                </li>
+                                <li>
+                                    1到3个数字,后面跟着任意个
+                                    逗号+3个数字,逗号成为可选,而不是必须：<strong
+                                >^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$
+                                </strong>
+                                </li>
+                                <li>
+                                    备注：这就是最终结果了,别忘了"+"可以用"*"替代如果你觉得空字符串也可以接受的话(奇怪,为什么?)最后,别忘了在用函数时去掉去掉那个反斜杠,一般的错误都在这里
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            xml文件：<strong
+                        >^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</strong
+                        >
+                        </li>
+                        <li>中文字符的正则表达式：<strong>[\u4e00-\u9fa5]</strong></li>
+                        <li>
+                            双字节字符：<strong
+                        >[^\x00-\xff]
+                            (包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</strong
+                        >
+                        </li>
+                        <li>
+                            空白行的正则表达式：<strong
+                        >\n\s*\r (可以用来删除空白行)</strong
+                        >
+                        </li>
+                        <li>
+                            HTML标记的正则表达式：<strong
+                        >&lt;(\S*?)[^&gt;]*&gt;.*?<!--\1-->|&lt;.*? /&gt; (
+                            首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$)
+                            (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong
+                        >
+                        </li>
+                        <li>
+                            腾讯QQ号：<strong
+                        >[1-9][0-9]{4,} (腾讯QQ号从10000开始)</strong
+                        >
+                        </li>
+                        <li>
+                            中国邮政编码：<strong
+                        >[1-9]\d{5}(?!\d) (中国邮政编码为6位数字)</strong
+                        >
+                        </li>
+                        <li>
+                            IPv4地址：<strong
+                        >((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}</strong
+                        >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div
+            class="modal fade"
+            id="myModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">各语言代码参考</h5>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="alert-message"></div>
+                    <div id="languagelist">
+                        <h4>
+                            JavaScript -
+                            <a
+                                    href="http://www.runoob.com/js/js-regexp.html"
+                                    target="_blank"
+                            >JavaScript 正则表达式</a
+                            >
+                        </h4>
+                        <pre id="js" class="prettyprint"></pre>
+
+                        <h4>PHP</h4>
+                        <pre id="php" class="prettyprint"></pre>
+
+                        <h4>Go</h4>
+                        <pre id="go" class="prettyprint"></pre>
+
+                        <h4>
+                            JAVA -
+                            <a
+                                    href="http://www.runoob.com/java/java-regular-expressions.html"
+                                    target="_blank"
+                            >Java 正则表达式</a
+                            >
+                        </h4>
+                        <pre id="java" class="prettyprint"></pre>
+
+                        <h4>
+                            Ruby -
+                            <a
+                                    href="http://www.runoob.com/ruby/ruby-regular-expressions.html"
+                                    target="_blank"
+                            >Ruby 正则表达式</a
+                            >
+                        </h4>
+                        <pre id="rb" class="prettyprint"></pre>
+
+                        <h4>
+                            Python -
+                            <a
+                                    href="http://www.runoob.com/python/python-reg-expressions.html"
+                                    target="_blank"
+                            >Python 正则表达式</a
+                            >
+                        </h4>
+                        <pre id="py" class="prettyprint"></pre>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <script>
+        function setVisible(idElement, visible) {
+            var obj = document.getElementById(idElement);
+            obj.style.visibility = visible ? "visible" : "hidden";
+        }
+        function isValidFields() {
+            var textSour = document.getElementById("textSour");
+            if (null == textSour.value || textSour.value.length < 1) {
+                textSour.focus();
+                $(".fa-exclamation-triangle").show();
+                // $(".alert-danger").html("请输入待匹配文本").show().fadeOut(5000);
+                return false;
+            }
+            var textPattern = document.getElementById("textPattern");
+            if (null == textPattern.value || textPattern.value.length < 1) {
+                textPattern.focus();
+                $(".fa-exclamation-triangle").show();
+                //$(".alert-danger").html("请输入正则表达式").show().fadeOut(5000);
+                return false;
+            }
+            return true;
+        }
+        function buildRegex() {
+            var op = "";
+            if (document.getElementById("optionGlobal").checked) op = "g";
+            if (document.getElementById("optionIgnoreCase").checked)
+                op = op + "i";
+            if (document.getElementById("optionMultiline").checked) op = op + "m";
+            if (document.getElementById("optionSingleline").checked)
+                op = op + "s";
+
+            $("#regFlag").html(op);
+            try {
+                $(".fa-exclamation-triangle").hide();
+                return new RegExp(document.getElementById("textPattern").value, op);
+            } catch (err) {
+                $(".fa-exclamation-triangle").show();
+                return false;
+            }
+        }
+        function onMatch() {
+            var regex = buildRegex();
+            console.log(regex)
+            if (!isValidFields()) return false;
+            document.getElementById("textMatchResult").value = "";
+            setRegColor();
+            var result = document.getElementById("textSour").value.match(regex);
+            if (null == result || 0 == result.length) {
+                document.getElementById("textMatchResult").value = "（没有匹配）";
+                return false;
+            }
+
+            if (document.getElementById("optionGlobal").checked) {
+                var strResult = `共找到 ${result.length} 处匹配：\r
+`;
+                for (var i = 0; i < result.length; ++i)
+                    strResult = strResult + result[i] + "\r\n";
+                document.getElementById("textMatchResult").value = strResult;
+            } else {
+                document.getElementById("textMatchResult").value =
+                    `匹配位置：${regex.lastIndex}\r
+匹配结果：${result[0]}`;
+            }
+            return true;
+        }
+        function onReplace() {
+            var str = document.getElementById("textSour").value;
+            var regex = buildRegex();
+            document.getElementById("textReplaceResult").value = str.replace(
+                regex,
+                document.getElementById("textReplace").value
+            );
+        }
+        function reset() {
+            $("#textSour").val("");
+            $("#textPattern").val("");
+            $("#textMatchResult").val("");
+            $("#textReplace").val("");
+            $("#textReplaceResult").val("");
+        }
+
+        function testReg(reTxt, text) {
+            $("#textSour").val(text);
+            $("#textPattern").val(reTxt);
+            onMatch();
+        }
+        document.querySelector("#submitBTN").addEventListener(
+            "click",
+            function (event) {
+                save_data(event);
+            },
+            false
+        );
+
+        function setRegColor() {
+            var text = document.getElementById("textSour").value;
+            var regexp = buildRegex();
+            matches = text.match(regexp);
+            console.log(matches);
+            var k = 0,
+                str = "",
+                lastEnd = 0;
+            while ((match = regexp.exec(text)) != null) {
+                position = match.index;
+                //console.log(match);
+                if (k % 2) {
+                    str += [
+                        text.slice(0 + lastEnd, position),
+                        `<i index='${k}'>`,
+                        escapeHtml(text.slice(position, match[0].length + position)),
+                        "</i>",
+                    ].join("");
+                } else {
+                    str += [
+                        text.slice(0 + lastEnd, position),
+                        `<b index='${k}'>`,
+                        escapeHtml(text.slice(position, match[0].length + position)),
+                        "</b>",
+                    ].join("");
+                }
+                k++;
+                lastEnd = match[0].length + position;
+                if (k > matches.length) {
+                    break;
+                } else if (k > 5000) {
+                    break;
+                }
+            }
+            str += escapeHtml([text.slice(lastEnd)].join(""));
+
+            $("#txt").html(str.replace(/\r?\n/g, "<br/>"));
+        }
+        String.prototype.format = function (args) {
+            console.log(`%c格式`,`color:red;font-size:16px;background:transparent`)
+            console.log(args)
+            console.log(typeof args)
+            console.log(`%cargumetns=`,`color:red;font-size:16px;background:transparent`)
+            console.log(arguments)
+            if (arguments.length > 0) {
+                var result = this;
+                if (arguments.length == 1 && typeof args == "object") {
+                    for (var key in args) {
+                        var reg = new RegExp("({" + key + "})", "g");
+                        result = result.replace(reg, args[key]);
+                    }
+                } else {
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i] == undefined) {
+                            result = result.replace(reg, arguments[i]);
+                        } else {
+                            var reg = new RegExp(`\\{${i}\\}`, "gm");
+                            console.log(reg)
+                            console.log('argumentsi',arguments[i])
+                            result = result.replace(reg, arguments[i]);
+                        }
+                    }
+                }
+                console.log(result)
+                return result;
+            } else {
+                return this;
+            }
+        };
+        var languageCode = {
+            js: "var pattern = /{0}/,\n\tstr = '{1}';\nconsole.log(pattern.test(str));",
+            php: "$str = '{1}';\n$isMatched = preg_match('/{0}/', $str, $matches);\nvar_dump($isMatched, $matches);",
+            py: "import re\npattern = re.compile(ur'{0}')\nstr = u'{1}'\nprint(pattern.search(str))",
+            java: 'import java.util.regex.Matcher;\nimport java.util.regex.Pattern;\n\npublic class RegexMatches {\n\t\n\tpublic static void main(String args[]) {\n\t\tString str = "{1}";\n\t\tString pattern = "{0}";\n\n\t\tPattern r = Pattern.compile(pattern);\n\t\tMatcher m = r.matcher(str);\n\t\tSystem.out.println(m.matches());\n\t}\n\n}',
+            go: 'package main\n\nimport (\n\t"fmt"\n\t"regexp"\n)\n\nfunc main() {\n\tstr := "{1}"\n\tmatched, err := regexp.MatchString("{0}", str)\n\tfmt.Println(matched, err)\n}',
+            rb: "pattern = /{0}/\nstr = '{1}'\np pattern.match(str)",
+        };
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        $(document).ready(function () {
+            load_data();
+            $(window).on("unload", function (e) {
+                save_data(e);
+            });
+            $("#right_area li a").click(function () {
+                $("#textPattern").val($(this).attr("title"));
+                onMatch();
+            });
+
+            $(".form-check-input").change(function () {
+                onMatch();
+            });
+            $("#textPattern").on("change keyup paste", function () {
+                if ($("#textSour").val() != "" && $("#textSour").val().length > 0) {
+                    onMatch();
+                }
+            });
+
+            $("#textSour").on("change keyup paste", function () {
+                if (
+                    $("#textPattern").val() != "" &&
+                    $("#textPattern").val().length > 0
+                ) {
+                    onMatch();
+                }
+            });
+
+            $("#myModal").on("show.bs.modal", function () {
+                var pattern = $("#textPattern").val();
+                if (!pattern) {
+                    $("#alert-message").html("你还没输入正则表达式").show();
+                } else {
+                    $("#alert-message").hide();
+                }
+                var prelist = $("#languagelist pre");
+                for (var i = 0; i < prelist.length; i++) {
+                    var pre = $(prelist[i]);
+                    var language = pre.attr("id");
+                    if (language == "go" || language == "java") {
+                        pattern2 = pattern.replace(/\\/gi, "\\\\");
+                        pre.html(languageCode[language].format(pattern2, ""));
+                    } else {
+                        pre.html(languageCode[language].format(pattern, ""));
+                    }
+                }
+            });
+        });
+
+        function save_data(e) {
+            $("[save]").each(function () {
+                var $this, val;
+                $this = $(this);
+                val = $this.val();
+                return localStorage.setItem($this.attr("id"), val);
+            });
+            return e.preventDefault();
+        }
+        function load_data() {
+            $("[save]").each(function () {
+                var $this, v;
+                $this = $(this);
+                v = localStorage.getItem($this.attr("id"));
+                if (v !== null) {
+                    return $this.val(v);
+                }
+            });
+            onMatch();
+        }
+    </script>
+</div>
+<hr />
+
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.bundle.js"></script>
+<script>
+    $(function () {
+        //代码高亮
+        $("pre").each(function () {
+            if (!$(this).hasClass("prettyprint")) {
+                $(this).addClass("prettyprint");
+            }
+        });
+        if (is_home) {
+            $(window).scroll(function () {
+                var _stop = $(window).scrollTop();
+                if (_stop >= 100) {
+                    $("#go-top").fadeIn();
+                } else {
+                    $("#go-top").fadeOut();
+                }
+            });
+            $("#go-top").click(function (event) {
+                $("html,body").animate({ scrollTop: 0 }, 100);
+                return false;
+            });
+            // 导航
+            var _html_nav =
+                '<a class="nav-link active" href="javascript:void();"><i class="fa fa-compass" aria-hidden="true"></i> 快速导航</a>';
+            var _html_left_nav =
+                '<button class="dropdown-item" href="#"><i class="fa fa-th-list" aria-hidden="true"></i> 快速导航</button><div class="dropdown-divider"></div>';
+
+            for (var i = 0; i < data_hrefs.length; i++) {
+                id = "runoob-goto-" + data_hrefs[i];
+                _html_nav += `<a class="nav-link" href="#${id}">${$("#" + id).data(
+                    "text"
+                )}</a>`;
+                _html_left_nav += `<button class="dropdown-item" onclick="location.href='#${id}'" type="button"><i class="fa fa-caret-right" aria-hidden="true"></i> ${$(
+                    "#" + id
+                ).data("text")}</button>`;
+            }
+            $(".nav-underline").html(_html_nav);
+            $("#right_nav_list").html(_html_left_nav);
+            $('a[href^="#"]').on("click", function (e) {
+                e.preventDefault();
+                $(this).addClass("nav-underline-active");
+                $(this).siblings().removeClass("nav-underline-active");
+                var targetEle = this.hash;
+                var $targetEle = $(targetEle);
+                var sTop = $targetEle.offset().top;
+                $("html, body")
+                    .stop()
+                    .animate(
+                        {
+                            scrollTop: sTop - 100,
+                        },
+                        300,
+                        "swing",
+                        function () {
+                            //   window.location.hash = targetEle;
+                        }
+                    );
+            });
+        } else {
+            $("#top").hide();
+        }
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/node_modules
+/public/storage
+/public/hot
+/storage/*.key
+
+Homestead.json
+Homestead.yaml
+.env
+.project
+.buildpath
+*.exe
+tmp
+*.log*
+.idea
+go.sum

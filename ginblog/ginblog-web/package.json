@@ -1,0 +1,46 @@
+{
+  "name": "ginblog-web",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:ts": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "prettier --write src/**/*.{vue,js,jsx,ts,tsx,json,html}",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^1.1.4",
+    "@types/node": "^17.0.31",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vueuse/core": "^8.4.2",
+    "@vueuse/head": "^0.7.6",
+    "axios": "latest",
+    "dayjs": "^1.11.2",
+    "echarts": "^5.3.2",
+    "element-plus": "latest",
+    "md-editor-v3": "^1.11.12",
+    "pinia": "latest",
+    "prettier": "^2.6.2",
+    "qs": "^6.10.3",
+    "sass": "latest",
+    "unplugin-auto-import": "latest",
+    "unplugin-vue-components": "^0.19.3",
+    "vue": "^3.2.33",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.2",
+    "husky": "^8.0.0",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.8",
+    "vue-tsc": "^0.34.11"
+  },
+  "lint-staged": {
+    "src/**": [
+      "prettier  --write",
+      "git add"
+    ]
+  }
+}

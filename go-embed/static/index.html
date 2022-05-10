@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{
+            all: unset;
+            padding: 0.5rem 0.8rem;
+            border: 1px solid cyan;
+            background: cyan;
+            border-radius: 0.3rem;
+            box-shadow: 0 0 2px #12d7d7;
+            transition: all 0.3s;
+        }
+        .btn:hover{
+            cursor: pointer;
+            background: #00FFFF99;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h2>这是static</h2>
+    <button class="btn" onclick="goto()">前往atools</button>
+</div>
+<script>
+    function goto() {
+        location.assign("/atools")
+    }
+</script>
+</body>
+</html>
