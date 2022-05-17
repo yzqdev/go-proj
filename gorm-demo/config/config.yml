@@ -1,0 +1,8 @@
+mysql:
+  host: 127.0.0.1:3306
+  name: gorm-demo
+  user: root
+  pass: 123456
+pgsql:
+  name: gorm-demo
+  pass: 123456
