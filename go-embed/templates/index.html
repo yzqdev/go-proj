@@ -3,11 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/element-plus/dist/index.css"
+    />
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/element-plus"></script>
+    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
+    <div id="app">
+        <section class="container">
+            <h2>这是templates</h2>
+            <el-button type="primary" @click="showMsg">element-plus</el-button>
 
-    <h2>这是templates</h2>
+
+        </section>
+    </div>
+
+
 </div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: "hhhhh",
+            };
+        },
+        methods: {
+            showMsg() {
+                ElementPlus.ElMessage("hhh");
+            },
+        },
+    });
+    app.use(ElementPlus);
+    app.mount("#app");
+
+</script>
+<script src="js/admin.js"></script>
 </body>
 </html>
