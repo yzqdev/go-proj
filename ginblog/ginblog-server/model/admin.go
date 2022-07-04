@@ -10,6 +10,7 @@ type AdminUser struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Salt     string `json:"salt"`
+	Uid      string `json:"uid"`
 }
 
 func QueryByUsername(username string) (result AdminUser) {

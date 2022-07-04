@@ -4,8 +4,9 @@ import (
 	"ginblog/model"
 	"ginblog/utils"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/gookit/color"
+	"github.com/rs/xid"
 	"net/http"
 	"strconv"
 	"time"
@@ -22,8 +23,8 @@ type ReqReg struct {
 	Password string `json:"password"`
 }
 type NewJwtClaims struct {
-	*model.AdminUser
-	jwt.StandardClaims
+	Uid string
+	jwt.RegisteredClaims
 }
 
 func Login(c *gin.Context) {
@@ -49,7 +50,7 @@ func Login(c *gin.Context) {
 	color.Red.Println("登陆接口进入")
 	color.Cyan.Println(sqlU.Password)
 	if sqlU.Password == utils.MD5(user.Password+salt) {
-		expiresTime := time.Now().Unix() + int64(60*60*24)
+		expiresTime := jwt.NewNumericDate(time.Now().Add(48 * time.Hour * time.Duration(1))) //48小时
 		//claims := jwt.StandardClaims{
 		//	Audience:  user.Username,          // 受众
 		//	ExpiresAt: expiresTime,            // 失效时间
@@ -59,19 +60,19 @@ func Login(c *gin.Context) {
 		//	NotBefore: time.Now().Unix(),      // 生效时间
 		//	Subject:   "login",                // 主题
 		//}
-		stdClaims := jwt.StandardClaims{
+		stdClaims := jwt.RegisteredClaims{
 
-			Audience:  "啊啊啊",             // 受众
-			ExpiresAt: expiresTime,       // 失效时间
-			Id:        "id",              // 编号
-			IssuedAt:  time.Now().Unix(), // 签发时间
-			Issuer:    "sqlU.Username",   // 签发人
-			NotBefore: time.Now().Unix(), // 生效时间
-			Subject:   "login",           // 主题
+			Audience:  []string{"啊啊啊"},                // 受众
+			ExpiresAt: expiresTime,                    // 失效时间
+			ID:        "id",                           // 编号
+			IssuedAt:  jwt.NewNumericDate(time.Now()), // 签发时间
+			Issuer:    "sqlU.Username",                // 签发人
+			NotBefore: jwt.NewNumericDate(time.Now()), // 生效时间
+			Subject:   "login",                        // 主题
 		}
 		newClaims := NewJwtClaims{
-			AdminUser:      &sqlU,
-			StandardClaims: stdClaims,
+			Uid:              sqlU.Uid,
+			RegisteredClaims: stdClaims,
 		}
 		tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, newClaims)
 		if token, err := tokenClaims.SignedString(SecretKey); err == nil {
@@ -116,8 +117,8 @@ func Register(c *gin.Context) {
 		data := map[string]interface{}{
 			"username": username,
 			"password": utils.MD5(password + salt),
-
-			"salt": salt,
+			"uid":      xid.New().String(),
+			"salt":     salt,
 		}
 		model.SaveUser(data)
 
