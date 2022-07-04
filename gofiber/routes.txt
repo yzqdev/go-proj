@@ -1,0 +1,134 @@
+[
+  [
+    {
+      "method": "GET",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "",
+      "path": "/about",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "",
+      "path": "/view",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/public",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "",
+      "path": "/metrics",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/about",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/view",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/public",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/metrics",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "POST",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "PUT",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "DELETE",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "CONNECT",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "OPTIONS",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "TRACE",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "PATCH",
+      "name": "",
+      "path": "/",
+      "params": null
+    }
+  ]
+]

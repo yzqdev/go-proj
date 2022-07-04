@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/gookit/color"
 	"io/fs"
+	"os/exec"
 	"path/filepath"
 	"testing"
 )
@@ -18,4 +19,8 @@ func TestWak(t *testing.T) {
 		color.Redln(info.Name())
 		return nil
 	})
+}
+func TestExe(t *testing.T) {
+	path := "C:\\Users\\yanni\\AppData\\Roaming\\optimus"
+	exec.Command("rundll32", "url.dll,FileProtocolHandler", path).Run()
 }
