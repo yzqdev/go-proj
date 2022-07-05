@@ -41,6 +41,7 @@ func MainStatic(router *gin.Engine) {
 var (
 
 	//go:embed config.yml
+	//go:embed resource
 	resource embed.FS
 )
 
