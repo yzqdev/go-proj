@@ -15,7 +15,7 @@ func InitRouter(e *gin.Engine) {
 	adminRouter := e.Group("/admin", middleware.JwtHandler())
 	{
 
-		adminRouter.GET("/index", controller.Index)
+		adminRouter.GET("/index", controller.GetUser)
 		adminRouter.POST("/addArticle", controller.AddArticle)
 		adminRouter.PUT("/updateArticle", controller.UpdateArticle)
 		adminRouter.DELETE("/delArticle/:id", controller.DelArticle)
@@ -32,4 +32,7 @@ func InitRouter(e *gin.Engine) {
 
 	}
 
+}
+func StaticRoute(e *gin.Engine) {
+	e.Static("./public", "views")
 }

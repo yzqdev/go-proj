@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ginblog/config"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"time"
@@ -8,6 +9,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	g := config.GetGlobal()
 	r.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
@@ -19,5 +21,5 @@ func main() {
 	}))
 
 	InitRouter(r)
-	r.Run(":9010") // 监听并在 0.0.0.0:8080 上启动服务
+	r.Run(g.Server.Port) // 监听并在 0.0.0.0:8080 上启动服务
 }

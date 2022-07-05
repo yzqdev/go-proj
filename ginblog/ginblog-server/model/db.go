@@ -1,9 +1,9 @@
 package model
 
 import (
+	"ginblog/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"ginblog/config"
 )
 
 type Database struct {
@@ -16,7 +16,7 @@ var DB *gorm.DB
 func init() {
 	g := config.GetGlobal()
 
-	dsn := g.Mysql.User + ":" + g.Mysql.Pass + "@tcp(127.0.0.1:3306)/" + g.Mysql.Name + "?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "host=" + g.Pg.Host + " user=" + g.Pg.User + " password= " + g.Pg.Pass + " dbname=" + g.Pg.Name + " port=" + g.Pg.Port + " sslmode=disable TimeZone=Asia/Shanghai"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return

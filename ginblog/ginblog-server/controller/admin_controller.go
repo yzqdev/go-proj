@@ -135,20 +135,20 @@ func Register(c *gin.Context) {
 	}
 }
 
-// Index 通过token获取user信息
-func Index(c *gin.Context) {
+// GetUser 通过token获取user信息
+func GetUser(c *gin.Context) {
 	userContext, exist := c.Get("user")
 	if !exist {
 		color.Danger.Println("失败了")
 	}
 	//查询用户组及该组的功能权限
-	user, ok := userContext.(model.AdminUser) //这个是类型推断,判断接口是什么类型
+	userId, ok := userContext.(string) //这个是类型推断,判断接口是什么类型
 	if !ok {
 
 		color.Danger.Println("断言失败")
 	}
 	color.Red.Println(c.Request.Host)
-	utils.JSON(c, 200, "获取成功", user)
+	utils.JSON(c, 200, "获取成功", userId)
 }
 func CheckToken(c *gin.Context) {
 	userContext, exist := c.Get("user")
@@ -156,13 +156,13 @@ func CheckToken(c *gin.Context) {
 		color.Danger.Println("失败了")
 	}
 	//查询用户组及该组的功能权限
-	user, ok := userContext.(model.AdminUser) //这个是类型推断,判断接口是什么类型
+	userId, ok := userContext.(string) //这个是类型推断,判断接口是什么类型
 	if !ok {
 
 		color.Danger.Println("断言失败")
 	}
 	color.Red.Println(c.Request.Host)
-	utils.JSON(c, 200, "获取成功", user)
+	utils.JSON(c, 200, "获取成功", userId)
 }
 
 func AddArticle(c *gin.Context) {

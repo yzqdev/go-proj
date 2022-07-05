@@ -1,0 +1,14 @@
+server:
+  port: :9010
+mysql:
+  host: 127.0.0.1
+  name: ginblog
+  user: root
+  pass: 123456
+  port: 3306
+pg:
+  port: 5432
+  host: 127.0.0.1
+  name: ginblog
+  user: postgres
+  pass: 123456

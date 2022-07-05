@@ -20,5 +20,6 @@ func Req(c *gin.Context) {
 		PageNumber:    1,
 		ResultPerPage: 22,
 	}
+
 	c.ProtoBuf(http.StatusOK, req)
 }
