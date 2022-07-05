@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-
+	Embed.RestoreFolder(".")
 	router := gin.Default()
 
 	// example: /public/static/js/1.js

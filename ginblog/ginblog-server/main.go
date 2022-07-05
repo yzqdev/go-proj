@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	engine := gin.Default()
 	g := config.GetGlobal()
-	r.Use(cors.New(cors.Config{
+	engine.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
@@ -19,7 +19,7 @@ func main() {
 
 		MaxAge: 12 * time.Hour,
 	}))
-
-	InitRouter(r)
-	r.Run(g.Server.Port) // 监听并在 0.0.0.0:8080 上启动服务
+	Embed.RestoreFolder(".")
+	InitRouter(engine)
+	engine.Run(g.Server.Port) // 监听并在 0.0.0.0:8080 上启动服务
 }

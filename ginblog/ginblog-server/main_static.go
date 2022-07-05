@@ -15,16 +15,6 @@ import (
 //go:embed   templates
 var f embed.FS
 
-//go:embed   config.yml
-var confFile embed.FS
-
-func WithConfStatic(router *gin.Engine) {
-
-	router.StaticFS("/f", http.FS(confFile))
-
-	color.Yellowln(http.FS(f))
-}
-
 func MainAssets() http.FileSystem {
 	//这一步是必须的
 	pub, _ := fs.Sub(f, "templates")
@@ -32,7 +22,7 @@ func MainAssets() http.FileSystem {
 }
 
 func MainStatic(router *gin.Engine) {
-
+	color.Redln("main static")
 	//router.StaticFS("/main", http.FS(f))//这个不对
 	router.StaticFS("/main", MainAssets())
 
