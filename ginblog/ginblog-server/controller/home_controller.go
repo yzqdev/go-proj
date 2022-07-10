@@ -2,7 +2,7 @@ package controller
 
 import (
 	"ginblog/model"
-	"ginblog/utils"
+	"ginblog/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -10,7 +10,7 @@ import (
 func GetArticleList(c *gin.Context) {
 
 	articles := model.QueryArticleList()
-	utils.JSON(c, http.StatusOK, "成功", articles)
+	util.JSON(c, http.StatusOK, "成功", articles)
 }
 
 // Req 使用protobuf

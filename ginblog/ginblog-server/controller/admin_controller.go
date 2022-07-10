@@ -2,7 +2,7 @@ package controller
 
 import (
 	"ginblog/model"
-	"ginblog/utils"
+	"ginblog/util"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gookit/color"
@@ -39,7 +39,7 @@ func Login(c *gin.Context) {
 
 		result.Message = "数据绑定失败"
 		result.Code = http.StatusUnauthorized
-		c.JSON(http.StatusUnauthorized, gin.H{
+		util.JSON(c, http.StatusUnauthorized, "数据绑定失败", gin.H{
 			"result": result,
 		})
 	}
@@ -49,7 +49,7 @@ func Login(c *gin.Context) {
 	color.Red.Println(user.Password)
 	color.Red.Println("登陆接口进入")
 	color.Cyan.Println(sqlU.Password)
-	if sqlU.Password == utils.MD5(user.Password+salt) {
+	if sqlU.Password == util.MD5(user.Password+salt) {
 		expiresTime := jwt.NewNumericDate(time.Now().Add(48 * time.Hour * time.Duration(1))) //48小时
 		//claims := jwt.StandardClaims{
 		//	Audience:  user.Username,          // 受众
@@ -79,18 +79,19 @@ func Login(c *gin.Context) {
 			result.Message = "登录成功"
 			result.Data = token
 			result.Code = http.StatusOK
-			c.JSON(result.Code, result)
+			util.JSON(c, result.Code, "成功", result)
 		} else {
 			result.Message = "登录失败，请重新登陆"
 			result.Code = http.StatusOK
-			c.JSON(result.Code, gin.H{
+			util.JSON(c, result.Code, "success", gin.H{
 				"result": result,
 			})
+
 		}
 	} else {
 		result.Message = "密码不一样"
-		result.Code = http.StatusOK
-		c.JSON(result.Code, gin.H{
+		result.Code = http.StatusUnauthorized
+		util.JSON(c, result.Code, "success", gin.H{
 			"result": result,
 		})
 	}
@@ -113,22 +114,22 @@ func Register(c *gin.Context) {
 
 	have := model.GetUserCheck(username)
 	if !have {
-		salt := utils.GetRandomString(4)
+		salt := util.GetRandomString(4)
 		data := map[string]interface{}{
 			"username": username,
-			"password": utils.MD5(password + salt),
+			"password": util.MD5(password + salt),
 			"uid":      xid.New().String(),
 			"salt":     salt,
 		}
 		model.SaveUser(data)
 
-		c.JSON(http.StatusOK, gin.H{
+		util.JSON(c, http.StatusOK, "注册成功", gin.H{
 			"status":  200,
 			"message": "注册成功",
 		})
 
 	} else {
-		c.JSON(http.StatusOK, gin.H{
+		util.JSON(c, http.StatusBadGateway, "用户已经存在", gin.H{
 			"status":  2010,
 			"message": "用户信息已存在，请确认后输入！",
 		})
@@ -148,7 +149,7 @@ func GetUser(c *gin.Context) {
 		color.Danger.Println("断言失败")
 	}
 	color.Red.Println(c.Request.Host)
-	utils.JSON(c, 200, "获取成功", userId)
+	util.JSON(c, 200, "获取成功", userId)
 }
 func CheckToken(c *gin.Context) {
 	userContext, exist := c.Get("user")
@@ -162,38 +163,38 @@ func CheckToken(c *gin.Context) {
 		color.Danger.Println("断言失败")
 	}
 	color.Red.Println(c.Request.Host)
-	utils.JSON(c, 200, "获取成功", userId)
+	util.JSON(c, 200, "获取成功", userId)
 }
 
 func AddArticle(c *gin.Context) {
 	article := &model.Article{}
 	if err := c.ShouldBindJSON(article); err != nil {
 		color.Cyan.Println(err)
-		utils.JSON(c, 500, "success", "失败了")
+		util.JSON(c, 500, "success", "失败了")
 	} else {
 		flag := model.QueryAddArticle(*article)
-		utils.JSON(c, 200, "success", flag)
+		util.JSON(c, 200, "success", flag)
 	}
 }
 func UpdateArticle(c *gin.Context) {
 	article := &model.Article{}
 	if err := c.ShouldBindJSON(article); err != nil {
 		color.Cyan.Println(err)
-		utils.JSON(c, 500, "success", "失败了")
+		util.JSON(c, 500, "success", "失败了")
 	} else {
 		flag := model.QueryUpdateArticle(*article)
-		utils.JSON(c, 200, "success", flag)
+		util.JSON(c, 200, "success", flag)
 	}
 }
 func DelArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	model.DeleteArticle(id)
-	utils.JSON(c, 200, "success", true)
+	util.JSON(c, 200, "success", true)
 }
 func GetArticleById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var article model.Article
 	article = model.QueryGetArticleById(id)
 	color.Yellowln(article)
-	utils.JSON(c, 200, "success", article)
+	util.JSON(c, 200, "success", article)
 }
